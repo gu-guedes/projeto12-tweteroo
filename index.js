@@ -9,9 +9,9 @@ const usuarios = []
 const tweets = []
 
 app.post('/sign-up', (req, res) => {
-    const novoUsuario ={
-        username : req.body.username,
-        avatar : req.body.avatar,
+    const novoUsuario = {
+        username: req.body.username,
+        avatar: req.body.avatar,
     }
 
     usuarios.push(novoUsuario)
@@ -21,20 +21,25 @@ app.post('/sign-up', (req, res) => {
 app.post('/tweets', (req, res) => {
     const novoTweet = {
         username: req.body.username,
-      tweet: req.body.tweet 
+        tweet: req.body.tweet
     }
-    tweets.push(novoTweet)
-    res.send(tweets)
+    if (usuarios.includes(novoTweet.username)) {
+        tweets.push(novoTweet)
+        res.send(tweets)
+    
+    } else {
+        res.status(400).send("UNAUTHORIZED")
+    }
 
-}) 
+})
 
 app.get('/tweets', (req, res) => {
     tweets.forEach((tweet) => {
         const usuario = usuarios.find((user) => user.username === tweet.username)
         tweet.avatar = usuario.avatar
-        
+
     })
-   res.send(tweets.slice(-10))
+    res.send(tweets.slice(-10))
 })
 
 app.listen(5000, () => console.log("ta rodando"))
