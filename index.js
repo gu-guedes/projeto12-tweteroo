@@ -23,7 +23,8 @@ app.post('/tweets', (req, res) => {
         username: req.body.username,
         tweet: req.body.tweet
     }
-    if (usuarios.includes(novoTweet.username)) {
+    console.log(usuarios.find(element => novoTweet.username === element.username))
+    if (usuarios.find(element => novoTweet.username === element.username)) {
         tweets.push(novoTweet)
         res.send(tweets)
     
